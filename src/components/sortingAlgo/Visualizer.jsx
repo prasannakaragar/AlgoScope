@@ -4,7 +4,7 @@ import SpeedSlider from '../SpeedSlider.jsx'
 import CodePanel from '../visualizer/CodePanel'
 import { useStepPlayback } from '../visualizer/useStepPlayback'
 import ComplexityCard from '../ComplexityCard'
-import ComplexityGraph from '../ComplexityGraph'
+
 import * as bubble from '../../algorithms/sorting/bubbleSortSteps'
 import * as selection from '../../algorithms/sorting/selectionSortSteps'
 import * as insertion from '../../algorithms/sorting/insertionSortSteps'
@@ -14,7 +14,7 @@ import * as heap from '../../algorithms/sorting/heapSortSteps'
 import * as counting from '../../algorithms/sorting/countingSortSteps'
 import * as radix from '../../algorithms/sorting/radixSortSteps'
 import * as shell from '../../algorithms/sorting/shellSortSteps'
-
+import ComplexityGraph from '../ComplexityGraph'
 const algoMap = {
   bubble,
   selection,

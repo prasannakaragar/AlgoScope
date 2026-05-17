@@ -30,7 +30,7 @@ const data = useMemo(() => generateData(), [])
 return ( <div className="rounded-2xl border border-slate-700/80 bg-slate-900/60 p-4 shadow-xl"> <div className="mb-4"> <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-400/80">
 Complexity Visualization </p>
 
-
+```
     <h3 className="mt-2 text-lg font-semibold text-slate-100">
       Algorithm Performance Comparison
     </h3>
