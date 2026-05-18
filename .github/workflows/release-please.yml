@@ -43,14 +43,12 @@ jobs:
       - name: Rebuild CHANGELOG.md
         run: node scripts/append-file-tree.cjs ${{ needs.release-please.outputs.tag_name }}
 
-      - name: Commit and push updated CHANGELOG.md
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md
-          if git diff --quiet && git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "docs: rebuild CHANGELOG.md with proper ordering and file trees [skip ci]"
-            git push
-          fi
+      - name: Create Pull Request for Changelog
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs: rebuild CHANGELOG.md with proper ordering and file trees [skip ci]"
+          title: "docs: update CHANGELOG.md for new release"
+          branch: "bot/update-changelog"
+          body: "Automated `CHANGELOG.md` rebuild triggered by the latest release. Please review and merge to keep the changelog up to date."
+          base: main
