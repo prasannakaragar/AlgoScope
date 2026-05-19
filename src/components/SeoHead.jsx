@@ -124,6 +124,12 @@ export default function SeoHead() {
         const formattedType = type
           ? type.charAt(0).toUpperCase() + type.slice(1)
           : 'Data Structure'
+
+        title = `${formattedType} Comparison | AlgoScope`
+
+        description = `Compare different operations and implementation patterns for ${
+          formattedType === 'Data Structure' ? 'various' : formattedType
+        } data structures side-by-side.`
         title = `${formattedType} Comparison | AlgoScope`
         description = `Compare different operations and implementation patterns for ${formattedType === 'Data Structure' ? 'various' : formattedType} data structures side-by-side.`
       }
