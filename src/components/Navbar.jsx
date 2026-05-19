@@ -66,6 +66,16 @@ const Line = ({ variants }) => (
   />
 )
 
+const algorithmLinks = [
+  { name: 'Search', href: '/search' },
+  { name: 'Shortest Path', href: '/spath' },
+  { name: 'Sort', href: '/sort' },
+  { name: 'Abstract Data Types', href: '/adt' },
+  { name: 'Array Search', href: '/ldssearch' },
+  { name: "Kadane's Algorithm", href: '/kadane' },
+  { name: "Moore's Voting Algorithm", href: '/moore-voting' },
+]
+
 export const Navbar = () => {
   const [open, setOpen] = useState(false)
 
@@ -81,31 +91,25 @@ export const Navbar = () => {
     }
   })
 
-  const algorithmLinks = [
-    { name: 'Search', href: '/search' },
-    { name: 'Shortest Path', href: '/spath' },
-    { name: 'Sort', href: '/sort' },
-    { name: 'Abstract Data Types', href: '/adt' },
-    { name: 'Array Search', href: '/ldssearch' },
-    { name: "Kadane's Algorithm", href: '/kadane' },
-    { name: "Moore's Voting Algorithm", href: '/moore-voting' },
-  ]
-
   useEffect(() => {
     const current = algorithmLinks.find((link) => link.href === pathname)?.name
 
     if (current) {
-      setHistory((prev) => {
-        const updated = [current, ...prev.filter((item) => item !== current)]
-
-        const trimmed = updated.slice(0, 5)
-
-        localStorage.setItem('algo-history', JSON.stringify(trimmed))
-
-        return trimmed
-      })
+      // Use setTimeout to avoid synchronous setState in effect body (cascading renders)
+      const timer = setTimeout(() => {
+        setHistory((prev) => {
+          if (prev[0] === current) return prev
+          const updated = [current, ...prev.filter((item) => item !== current)]
+          return updated.slice(0, 5)
+        })
+      }, 0)
+      return () => clearTimeout(timer)
     }
-  }, [pathname, algorithmLinks])
+  }, [pathname])
+
+  useEffect(() => {
+    localStorage.setItem('algo-history', JSON.stringify(history))
+  }, [history])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/50 backdrop-blur supports-[backdrop-filter]:bg-slate-950/40 rounded-xl shadow-2xl">
