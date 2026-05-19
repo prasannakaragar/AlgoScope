@@ -85,7 +85,7 @@ function App() {
       element: (
         <Suspense fallback={<PageLoader />}>
           <AppLayout>
-            <SignedIn>
+            <SignedIn >
               <PracticePage />
             </SignedIn>
             <SignedOut>

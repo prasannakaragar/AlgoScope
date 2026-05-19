@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ClerkProvider } from '@clerk/clerk-react'
-import { dark, neobrutalism, simple } from '@clerk/themes'
+import {  simple } from '@clerk/themes'
 import './input.css'
 import App from './App.jsx'
 
@@ -15,6 +15,14 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ClerkProvider
       publishableKey={PUBLISHABLE_KEY}
+      localization={{
+    signIn: {
+      start: {
+        title: "Sign In to AlgoScope!",
+        subtitle: "Welcome!",
+      },
+    },
+  }}
       afterSignOutUrl="/"
       appearance={{
         baseTheme: simple,
