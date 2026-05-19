@@ -186,8 +186,10 @@ export const Navbar = () => {
               </li>
             </ul>
 
-            <Link
-              to="https://github.com/algoscope-hq/AlgoScope"
+            <a
+              href="https://github.com/algoscope-hq/AlgoScope"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center rounded-xl bg-white px-5 py-2 text-sm font-bold text-black shadow-lg hover:bg-slate-200 transition-all duration-200 active:scale-95"
             >
               <img
@@ -197,7 +199,7 @@ export const Navbar = () => {
               />
 
               <span>Github</span>
-            </Link>
+            </a>
 
             <div className="flex items-center gap-4 border-l border-white/10 pl-6">
               <SignedOut>
@@ -299,13 +301,15 @@ export const Navbar = () => {
                   </SignInButton>
                 </SignedOut>
 
-                <Link
-                  to="https://github.com/algoscope-hq/AlgoScope"
+                <a
+                  href="https://github.com/algoscope-hq/AlgoScope"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
                   className="block w-full text-center rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-base font-bold text-white shadow-lg hover:bg-white/10 transition-all active:scale-95"
                 >
                   Github
-                </Link>
+                </a>
               </motion.div>
             </div>
           </motion.div>

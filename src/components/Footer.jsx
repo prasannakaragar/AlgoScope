@@ -91,6 +91,8 @@ const Footer = () => {
               <div className="flex items-center space-x-3">
                 <motion.a
                   href="https://github.com/algoscope-hq/AlgoScope.git"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-9 h-9 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all"
                   whileHover={{ scale: 1.1 }}
                 >
