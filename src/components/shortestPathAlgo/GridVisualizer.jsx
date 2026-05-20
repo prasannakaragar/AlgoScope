@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 const ROWS = 20
 const COLS = 40
@@ -38,21 +38,8 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
 
   const timeouts = useRef([])
 
-  const startNode = useMemo(() => {
-    for (const row of grid) {
-      for (const node of row) {
-        if (node.isStart) return node
-      }
-    }
-  }, [grid])
-
-  const endNode = useMemo(() => {
-    for (const row of grid) {
-      for (const node of row) {
-        if (node.isEnd) return node
-      }
-    }
-  }, [grid])
+  const startNode = grid[10][5]
+  const endNode = grid[10][34]
 
   const clearTimers = useCallback(() => {
     timeouts.current.forEach((timer) => clearTimeout(timer))
@@ -272,6 +259,14 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
     (parent) => {
       const path = []
       let current = endNode
+      const endKey = `${endNode.row}-${endNode.col}`
+
+      if (
+        !parent[endKey] &&
+        !(endNode.row === startNode.row && endNode.col === startNode.col)
+      ) {
+        return []
+      }
 
       while (current) {
         path.unshift(current)
@@ -282,7 +277,7 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
 
       return path
     },
-    [endNode]
+    [endNode, startNode]
   )
 
   const animate = useCallback(
@@ -320,6 +315,15 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
       })
 
       const pathStart = visitedNodes.length * visitSpeed
+
+      if (shortestPath.length === 0) {
+        const timer = setTimeout(() => {
+          setRunning(false)
+        }, pathStart)
+
+        timeouts.current.push(timer)
+        return
+      }
 
       shortestPath.forEach((node, index) => {
         const timer = setTimeout(
@@ -369,9 +373,11 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
       if (algorithm === 'dijkstra') {
         result = dijkstra()
       } else if (algorithm === 'bellmanford') {
-        result = bfs()
+        console.warn('Bellman-Ford grid visualization not implemented yet')
+        result = dijkstra()
       } else if (algorithm === 'floydwarshall') {
-        result = dfs()
+        console.warn('Floyd-Warshall grid visualization not implemented yet')
+        result = dijkstra()
       }
 
       if (!result) return
@@ -385,7 +391,7 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
       cancelAnimationFrame(frame)
       clearTimers()
     }
-  }, [runKey, algorithm, animate, bfs, buildPath, clearTimers, dfs, dijkstra])
+  }, [runKey, algorithm, animate, buildPath, clearTimers, dijkstra])
 
   return (
     <div className="w-full bg-[#020617] p-4 rounded-xl">
