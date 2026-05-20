@@ -3,12 +3,18 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 const ROWS = 20
 const COLS = 40
 
+const START_ROW = 10
+const START_COL = 5
+
+const END_ROW = 10
+const END_COL = 34
+
 const createNode = (row, col) => {
   return {
     row,
     col,
-    isStart: row === 10 && col === 5,
-    isEnd: row === 10 && col === 34,
+    isStart: row === START_ROW && col === START_COL,
+    isEnd: row === END_ROW && col === END_COL,
     isWall: false,
     visited: false,
     path: false,
@@ -31,15 +37,118 @@ const createGrid = () => {
   return grid
 }
 
+const getNeighbors = (node, currentGrid) => {
+  const neighbors = []
+  const { row, col } = node
+
+  if (row > 0) neighbors.push(currentGrid[row - 1][col])
+  if (row < ROWS - 1) neighbors.push(currentGrid[row + 1][col])
+  if (col > 0) neighbors.push(currentGrid[row][col - 1])
+  if (col < COLS - 1) neighbors.push(currentGrid[row][col + 1])
+
+  return neighbors.filter((n) => !n.isWall)
+}
+
+const runDijkstra = (currentGrid) => {
+  const startNode = currentGrid[START_ROW][START_COL]
+  const endNode = currentGrid[END_ROW][END_COL]
+
+  const distances = {}
+  const visited = new Set()
+  const parent = {}
+  const order = []
+
+  for (const row of currentGrid) {
+    for (const node of row) {
+      distances[`${node.row}-${node.col}`] = Infinity
+    }
+  }
+
+  distances[`${startNode.row}-${startNode.col}`] = 0
+
+  while (visited.size < ROWS * COLS) {
+    let current = null
+    let smallest = Infinity
+
+    for (const row of currentGrid) {
+      for (const node of row) {
+        const key = `${node.row}-${node.col}`
+
+        if (!visited.has(key) && distances[key] < smallest) {
+          smallest = distances[key]
+          current = node
+        }
+      }
+    }
+
+    if (!current) break
+
+    const currentKey = `${current.row}-${current.col}`
+
+    visited.add(currentKey)
+
+    if (current.isWall) continue
+
+    order.push(current)
+
+    if (current.row === endNode.row && current.col === endNode.col) {
+      break
+    }
+
+    const neighbors = getNeighbors(current, currentGrid)
+
+    for (const next of neighbors) {
+      const nextKey = `${next.row}-${next.col}`
+      const newDistance = distances[currentKey] + 1
+
+      if (newDistance < distances[nextKey]) {
+        distances[nextKey] = newDistance
+        parent[nextKey] = current
+      }
+    }
+  }
+
+  return { order, parent }
+}
+
+const buildPath = (parent, currentGrid) => {
+  const path = []
+
+  const startNode = currentGrid[START_ROW][START_COL]
+  const endNode = currentGrid[END_ROW][END_COL]
+
+  let current = endNode
+  const endKey = `${endNode.row}-${endNode.col}`
+
+  if (
+    !parent[endKey] &&
+    !(endNode.row === startNode.row && endNode.col === startNode.col)
+  ) {
+    return []
+  }
+
+  while (current) {
+    path.unshift(current)
+
+    const key = `${current.row}-${current.col}`
+    current = parent[key]
+  }
+
+  return path
+}
+
 const GridVisualizer = ({ algorithm, runKey, speed }) => {
   const [grid, setGrid] = useState(createGrid())
   const [mousePressed, setMousePressed] = useState(false)
   const [running, setRunning] = useState(false)
+  const [drawWallMode, setDrawWallMode] = useState(true)
 
   const timeouts = useRef([])
+  const gridRef = useRef(createGrid())
 
-  const startNode = grid[10][5]
-  const endNode = grid[10][34]
+  useEffect(() => {
+    gridRef.current = grid
+  }, [grid])
 
   const clearTimers = useCallback(() => {
     timeouts.current.forEach((timer) => clearTimeout(timer))
@@ -75,7 +184,10 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
     const current = updated[row][col]
 
     if (!current.isStart && !current.isEnd) {
-      current.isWall = !current.isWall
+      const newWallState = !current.isWall
+
+      current.isWall = newWallState
+      setDrawWallMode(newWallState)
     }
 
     setGrid(updated)
@@ -89,7 +201,7 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
     const current = updated[row][col]
 
     if (!current.isStart && !current.isEnd) {
-      current.isWall = true
+      current.isWall = drawWallMode
     }
 
     setGrid(updated)
@@ -116,169 +228,6 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
 
     setGrid(freshGrid)
   }
-
-  const getNeighbors = useCallback((node, currentGrid) => {
-    const neighbors = []
-    const { row, col } = node
-
-    if (row > 0) neighbors.push(currentGrid[row - 1][col])
-    if (row < ROWS - 1) neighbors.push(currentGrid[row + 1][col])
-    if (col > 0) neighbors.push(currentGrid[row][col - 1])
-    if (col < COLS - 1) neighbors.push(currentGrid[row][col + 1])
-
-    return neighbors.filter((n) => !n.isWall)
-  }, [])
-
-  const _bfs = useCallback(() => {
-    const queue = [startNode]
-    const visited = new Set()
-    const parent = {}
-    const order = []
-
-    visited.add(`${startNode.row}-${startNode.col}`)
-
-    while (queue.length) {
-      const current = queue.shift()
-
-      order.push(current)
-
-      if (current.row === endNode.row && current.col === endNode.col) {
-        break
-      }
-
-      const neighbors = getNeighbors(current, grid)
-
-      for (const next of neighbors) {
-        const key = `${next.row}-${next.col}`
-
-        if (!visited.has(key)) {
-          visited.add(key)
-          parent[key] = current
-          queue.push(next)
-        }
-      }
-    }
-
-    return { order, parent }
-  }, [endNode, getNeighbors, grid, startNode])
-
-  const _dfs = useCallback(() => {
-    const stack = [startNode]
-    const visited = new Set()
-    const parent = {}
-    const order = []
-
-    while (stack.length) {
-      const current = stack.pop()
-      const currentKey = `${current.row}-${current.col}`
-
-      if (visited.has(currentKey)) continue
-
-      visited.add(currentKey)
-      order.push(current)
-
-      if (current.row === endNode.row && current.col === endNode.col) {
-        break
-      }
-
-      const neighbors = getNeighbors(current, grid)
-
-      for (const next of neighbors) {
-        const key = `${next.row}-${next.col}`
-
-        if (!visited.has(key)) {
-          parent[key] = current
-          stack.push(next)
-        }
-      }
-    }
-
-    return { order, parent }
-  }, [endNode, getNeighbors, grid, startNode])
-
-  const dijkstra = useCallback(() => {
-    const distances = {}
-    const visited = new Set()
-    const parent = {}
-    const order = []
-
-    for (const row of grid) {
-      for (const node of row) {
-        distances[`${node.row}-${node.col}`] = Infinity
-      }
-    }
-
-    distances[`${startNode.row}-${startNode.col}`] = 0
-
-    while (visited.size < ROWS * COLS) {
-      let current = null
-      let smallest = Infinity
-
-      for (const row of grid) {
-        for (const node of row) {
-          const key = `${node.row}-${node.col}`
-
-          if (!visited.has(key) && distances[key] < smallest) {
-            smallest = distances[key]
-            current = node
-          }
-        }
-      }
-
-      if (!current) break
-
-      const currentKey = `${current.row}-${current.col}`
-
-      visited.add(currentKey)
-
-      if (current.isWall) continue
-
-      order.push(current)
-
-      if (current.row === endNode.row && current.col === endNode.col) {
-        break
-      }
-
-      const neighbors = getNeighbors(current, grid)
-
-      for (const next of neighbors) {
-        const nextKey = `${next.row}-${next.col}`
-        const newDistance = distances[currentKey] + 1
-
-        if (newDistance < distances[nextKey]) {
-          distances[nextKey] = newDistance
-          parent[nextKey] = current
-        }
-      }
-    }
-
-    return { order, parent }
-  }, [endNode, getNeighbors, grid, startNode])
-
-  const buildPath = useCallback(
-    (parent) => {
-      const path = []
-      let current = endNode
-      const endKey = `${endNode.row}-${endNode.col}`
-
-      if (
-        !parent[endKey] &&
-        !(endNode.row === startNode.row && endNode.col === startNode.col)
-      ) {
-        return []
-      }
-
-      while (current) {
-        path.unshift(current)
-
-        const key = `${current.row}-${current.col}`
-        current = parent[key]
-      }
-
-      return path
-    },
-    [endNode, startNode]
-  )
 
   const animate = useCallback(
     (visitedNodes, shortestPath) => {
@@ -367,22 +316,28 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
 
     clearTimers()
 
+    const runGrid = gridRef.current.map((row) =>
+      row.map((node) => ({
+        ...node,
+      }))
+    )
+
     const frame = requestAnimationFrame(() => {
       let result
 
       if (algorithm === 'dijkstra') {
-        result = dijkstra()
+        result = runDijkstra(runGrid)
       } else if (algorithm === 'bellmanford') {
         console.warn('Bellman-Ford grid visualization not implemented yet')
-        result = dijkstra()
+        result = runDijkstra(runGrid)
       } else if (algorithm === 'floydwarshall') {
         console.warn('Floyd-Warshall grid visualization not implemented yet')
-        result = dijkstra()
+        result = runDijkstra(runGrid)
       }
 
       if (!result) return
 
-      const shortestPath = buildPath(result.parent)
+      const shortestPath = buildPath(result.parent, runGrid)
 
       animate(result.order, shortestPath)
     })
@@ -391,7 +346,7 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
       cancelAnimationFrame(frame)
       clearTimers()
     }
-  }, [runKey, algorithm, animate, buildPath, clearTimers, dijkstra])
+  }, [runKey, algorithm, speed, animate, clearTimers])
 
   return (
     <div className="w-full bg-[#020617] p-4 rounded-xl">
