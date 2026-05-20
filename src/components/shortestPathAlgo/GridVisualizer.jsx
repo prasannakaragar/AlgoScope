@@ -129,7 +129,7 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
     return neighbors.filter((n) => !n.isWall)
   }, [])
 
-  const bfs = useCallback(() => {
+  const _bfs = useCallback(() => {
     const queue = [startNode]
     const visited = new Set()
     const parent = {}
@@ -162,7 +162,7 @@ const GridVisualizer = ({ algorithm, runKey, speed }) => {
     return { order, parent }
   }, [endNode, getNeighbors, grid, startNode])
 
-  const dfs = useCallback(() => {
+  const _dfs = useCallback(() => {
     const stack = [startNode]
     const visited = new Set()
     const parent = {}
