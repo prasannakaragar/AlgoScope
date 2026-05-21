@@ -8,6 +8,10 @@ export function generateSubsetSumSteps(nums, target) {
   const steps = []
   const n = nums.length
   if (target < 0) return steps
+  if (nums.some((num) => num < 0)) {
+    console.error('Subset Sum: numbers must be non-negative')
+    return steps
+  }
   if (target === 0) {
     steps.push({
       table: [[true]],
