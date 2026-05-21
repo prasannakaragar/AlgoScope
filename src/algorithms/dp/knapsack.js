@@ -7,10 +7,16 @@
 export function generateKnapsackSteps(weights, values, capacity) {
   const steps = []
   const n = weights.length
+  if (n !== values.length) {
+    console.error('Knapsack: weights and values must have the same length')
+    return steps
+  }
   if (n === 0 || capacity <= 0) return steps
 
   // Build 2D table: (n+1) rows x (capacity+1) cols
-  const table = Array.from({ length: n + 1 }, () => new Array(capacity + 1).fill(0))
+  const table = Array.from({ length: n + 1 }, () =>
+    new Array(capacity + 1).fill(0)
+  )
 
   // Row labels = items (0 = no item, 1..n = item index)
   steps.push({
@@ -20,7 +26,12 @@ export function generateKnapsackSteps(weights, values, capacity) {
     description: `Init ${n + 1}×${capacity + 1} table. Rows = items (0..${n}), Cols = capacity (0..${capacity}).`,
     codeLine: 3,
     phase: 'init',
-    rowLabels: ['∅', ...weights.map((w, i) => `Item${i + 1}(w=${w},v=${values[i]})`).slice(0, n)],
+    rowLabels: [
+      '∅',
+      ...weights
+        .map((w, i) => `Item${i + 1}(w=${w},v=${values[i]})`)
+        .slice(0, n),
+    ],
     colLabels: Array.from({ length: capacity + 1 }, (_, i) => i),
     weights,
     values,
@@ -39,7 +50,7 @@ export function generateKnapsackSteps(weights, values, capacity) {
         description: `Item ${i} (weight=${w}, value=${v}), capacity=${j}: ${
           j < w
             ? `weight ${w} > capacity ${j}, skip → dp[${i}][${j}] = dp[${i - 1}][${j}] = ${table[i - 1][j]}`
-            : `can include → max(dp[${i-1}][${j}]=${table[i-1][j]}, dp[${i-1}][${j-w}]+${v}=${table[i-1][j-w]+v})`
+            : `can include → max(dp[${i - 1}][${j}]=${table[i - 1][j]}, dp[${i - 1}][${j - w}]+${v}=${table[i - 1][j - w] + v})`
         }`,
         codeLine: j < w ? 8 : 10,
         phase: 'compute',
@@ -51,7 +62,9 @@ export function generateKnapsackSteps(weights, values, capacity) {
       })
 
       table[i][j] =
-        j < w ? table[i - 1][j] : Math.max(table[i - 1][j], table[i - 1][j - w] + v)
+        j < w
+          ? table[i - 1][j]
+          : Math.max(table[i - 1][j], table[i - 1][j - w] + v)
 
       steps.push({
         table: table.map((r) => [...r]),

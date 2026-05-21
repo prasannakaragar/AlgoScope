@@ -8,7 +8,11 @@ export function generateMinPathSumSteps(grid) {
   const m = grid.length
   if (m === 0) return steps
   const n = grid[0].length
-
+  if (n === 0) return steps
+  if (!grid.every((row) => row.length === n)) {
+    console.error('minPathSum: grid must be rectangular')
+    return steps
+  }
   const table = Array.from({ length: m }, () => new Array(n).fill(0))
   const rowLabels = Array.from({ length: m }, (_, i) => `R${i}`)
   const colLabels = Array.from({ length: n }, (_, j) => `C${j}`)
@@ -34,7 +38,8 @@ export function generateMinPathSumSteps(grid) {
     table: table.map((r) => [...r]),
     current: null,
     deps: [],
-    description: 'Base: first row (can only come from left) and first column (can only come from top).',
+    description:
+      'Base: first row (can only come from left) and first column (can only come from top).',
     codeLine: 5,
     phase: 'base',
     grid: grid.map((r) => [...r]),
@@ -47,8 +52,11 @@ export function generateMinPathSumSteps(grid) {
       steps.push({
         table: table.map((r) => [...r]),
         current: [i, j],
-        deps: [[i - 1, j], [i, j - 1]],
-        description: `dp[${i}][${j}] = grid[${i}][${j}](=${grid[i][j]}) + min(dp[${i-1}][${j}]=${table[i-1][j]}, dp[${i}][${j-1}]=${table[i][j-1]}) = ${grid[i][j] + Math.min(table[i-1][j], table[i][j-1])}`,
+        deps: [
+          [i - 1, j],
+          [i, j - 1],
+        ],
+        description: `dp[${i}][${j}] = grid[${i}][${j}](=${grid[i][j]}) + min(dp[${i - 1}][${j}]=${table[i - 1][j]}, dp[${i}][${j - 1}]=${table[i][j - 1]}) = ${grid[i][j] + Math.min(table[i - 1][j], table[i][j - 1])}`,
         codeLine: 10,
         phase: 'compute',
         grid: grid.map((r) => [...r]),

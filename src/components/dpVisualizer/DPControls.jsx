@@ -1,15 +1,42 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import SpeedSlider from '../SpeedSlider'
-import { dpAlgorithmGroups, dpComplexity } from '../../algorithms/dp/dpCodeSources'
+import {
+  dpAlgorithmGroups,
+  dpComplexity,
+} from '../../algorithms/dp/dpCodeSources'
 
 const groupColors = {
-  cyan: { active: 'bg-cyan-500/30 border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(6,182,212,0.3)]', label: 'text-cyan-400' },
-  blue: { active: 'bg-blue-500/30 border-blue-400 text-blue-200 shadow-[0_0_10px_rgba(59,130,246,0.3)]', label: 'text-blue-400' },
-  purple: { active: 'bg-purple-500/30 border-purple-400 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.3)]', label: 'text-purple-400' },
-  pink: { active: 'bg-pink-500/30 border-pink-400 text-pink-200 shadow-[0_0_10px_rgba(236,72,153,0.3)]', label: 'text-pink-400' },
-  orange: { active: 'bg-orange-500/30 border-orange-400 text-orange-200 shadow-[0_0_10px_rgba(249,115,22,0.3)]', label: 'text-orange-400' },
-  emerald: { active: 'bg-emerald-500/30 border-emerald-400 text-emerald-200 shadow-[0_0_10px_rgba(16,185,129,0.3)]', label: 'text-emerald-400' },
+  cyan: {
+    active:
+      'bg-cyan-500/30 border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(6,182,212,0.3)]',
+    label: 'text-cyan-400',
+  },
+  blue: {
+    active:
+      'bg-blue-500/30 border-blue-400 text-blue-200 shadow-[0_0_10px_rgba(59,130,246,0.3)]',
+    label: 'text-blue-400',
+  },
+  purple: {
+    active:
+      'bg-purple-500/30 border-purple-400 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.3)]',
+    label: 'text-purple-400',
+  },
+  pink: {
+    active:
+      'bg-pink-500/30 border-pink-400 text-pink-200 shadow-[0_0_10px_rgba(236,72,153,0.3)]',
+    label: 'text-pink-400',
+  },
+  orange: {
+    active:
+      'bg-orange-500/30 border-orange-400 text-orange-200 shadow-[0_0_10px_rgba(249,115,22,0.3)]',
+    label: 'text-orange-400',
+  },
+  emerald: {
+    active:
+      'bg-emerald-500/30 border-emerald-400 text-emerald-200 shadow-[0_0_10px_rgba(16,185,129,0.3)]',
+    label: 'text-emerald-400',
+  },
 }
 
 const DPControls = ({
@@ -24,14 +51,14 @@ const DPControls = ({
   isPlaying,
   onPlayPause,
   hasSteps,
-  isComplete,
   language,
   onLanguageChange,
   approach,
   onApproachChange,
 }) => {
   const complexity = dpComplexity[selectedAlgo]
-  const showApproachTabs = selectedAlgo === 'fibonacci' || selectedAlgo === 'climbingStairs'
+  const showApproachTabs =
+    selectedAlgo === 'fibonacci' || selectedAlgo === 'climbingStairs'
 
   return (
     <motion.div
@@ -56,7 +83,9 @@ const DPControls = ({
           const colors = groupColors[group.color] || groupColors.cyan
           return (
             <div key={group.label}>
-              <p className={`text-xs font-bold uppercase tracking-[0.15em] mb-2 ${colors.label}`}>
+              <p
+                className={`text-xs font-bold uppercase tracking-[0.15em] mb-2 ${colors.label}`}
+              >
                 {group.label}
               </p>
               <div className="flex flex-col gap-1.5">
@@ -174,15 +203,20 @@ const DPControls = ({
           <div className="grid grid-cols-2 gap-2">
             <div className="bg-slate-800/60 rounded-lg px-3 py-2 border border-slate-700/50">
               <p className="text-xs text-slate-500">Time</p>
-              <p className="text-sm font-mono text-emerald-400 font-bold">{complexity.time}</p>
+              <p className="text-sm font-mono text-emerald-400 font-bold">
+                {complexity.time}
+              </p>
             </div>
             <div className="bg-slate-800/60 rounded-lg px-3 py-2 border border-slate-700/50">
               <p className="text-xs text-slate-500">Space</p>
-              <p className="text-sm font-mono text-amber-400 font-bold">{complexity.space}</p>
+              <p className="text-sm font-mono text-amber-400 font-bold">
+                {complexity.space}
+              </p>
             </div>
           </div>
           <p className="text-xs text-slate-500 mt-2 text-center">
-            Pattern: <span className="text-purple-400">{complexity.pattern}</span>
+            Pattern:{' '}
+            <span className="text-purple-400">{complexity.pattern}</span>
           </p>
         </div>
       )}

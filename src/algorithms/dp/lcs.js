@@ -32,7 +32,8 @@ export function generateLCSSteps(s1, s2) {
     table: table.map((r) => [...r]),
     current: null,
     deps: [],
-    description: 'Base: first row and column are 0 (LCS with empty string is 0)',
+    description:
+      'Base: first row and column are 0 (LCS with empty string is 0)',
     codeLine: 4,
     phase: 'base',
     rowLabels,
@@ -48,7 +49,12 @@ export function generateLCSSteps(s1, s2) {
       steps.push({
         table: table.map((r) => [...r]),
         current: [i, j],
-        deps: match ? [[i - 1, j - 1]] : [[i - 1, j], [i, j - 1]],
+        deps: match
+          ? [[i - 1, j - 1]]
+          : [
+              [i - 1, j],
+              [i, j - 1],
+            ],
         description: match
           ? `s1[${i - 1}]='${s1[i - 1]}' == s2[${j - 1}]='${s2[j - 1]}' → MATCH! dp[${i}][${j}] = dp[${i - 1}][${j - 1}] + 1 = ${table[i - 1][j - 1] + 1}`
           : `s1[${i - 1}]='${s1[i - 1]}' ≠ s2[${j - 1}]='${s2[j - 1]}' → dp[${i}][${j}] = max(dp[${i - 1}][${j}]=${table[i - 1][j]}, dp[${i}][${j - 1}]=${table[i][j - 1]})`,

@@ -39,7 +39,7 @@ export function generateLISSteps(nums) {
           table: [...table],
           current: i,
           deps: [j],
-          description: `nums[${j}]=${nums[j]} < nums[${i}]=${nums[i]} → dp[${i}] = max(dp[${i}]=${table[i]}, dp[${j}]+1=${table[j]+1})`,
+          description: `nums[${j}]=${nums[j]} < nums[${i}]=${nums[i]} → dp[${i}] = max(dp[${i}]=${table[i]}, dp[${j}]+1=${table[j] + 1})`,
           codeLine: 7,
           phase: 'compare',
           nums: [...nums],

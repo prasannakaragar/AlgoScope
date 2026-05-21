@@ -580,9 +580,7 @@ export const dpAlgorithmGroups = [
   {
     label: '1D DP',
     color: 'blue',
-    algorithms: [
-      { id: 'houseRobber', label: 'House Robber', dim: '1D' },
-    ],
+    algorithms: [{ id: 'houseRobber', label: 'House Robber', dim: '1D' }],
   },
   {
     label: 'Knapsack Pattern',

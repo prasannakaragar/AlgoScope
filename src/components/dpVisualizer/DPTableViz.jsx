@@ -28,7 +28,8 @@ export function DPArray1D({ table, current, deps = [], nums, phase }) {
   }
 
   const styleMap = {
-    current: 'bg-cyan-500 border-cyan-300 text-black shadow-[0_0_20px_rgba(6,182,212,0.7)] scale-110',
+    current:
+      'bg-cyan-500 border-cyan-300 text-black shadow-[0_0_20px_rgba(6,182,212,0.7)] scale-110',
     dep: 'bg-amber-500/40 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]',
     done: 'bg-emerald-500 border-emerald-300 text-black shadow-[0_0_20px_rgba(16,185,129,0.7)] scale-110',
     filled: 'bg-slate-700/80 border-slate-500 text-slate-200',
@@ -59,7 +60,9 @@ export function DPArray1D({ table, current, deps = [], nums, phase }) {
             <div key={i} className="flex flex-col items-center gap-1">
               <motion.div
                 layout
-                animate={{ scale: style === 'current' || style === 'done' ? 1.1 : 1 }}
+                animate={{
+                  scale: style === 'current' || style === 'done' ? 1.1 : 1,
+                }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 className={`w-14 h-14 rounded-xl border-2 flex items-center justify-center text-base font-bold font-mono transition-all duration-300 ${styleMap[style]}`}
               >
@@ -107,7 +110,14 @@ export function DPArray1D({ table, current, deps = [], nums, phase }) {
  *   colLabels: string[]        - optional column labels
  *   phase: string
  */
-export function DPGrid2D({ table, current, deps = [], rowLabels, colLabels, phase }) {
+export function DPGrid2D({
+  table,
+  current,
+  deps = [],
+  rowLabels,
+  colLabels,
+  phase,
+}) {
   if (!table || table.length === 0) {
     return (
       <div className="flex items-center justify-center h-40 text-slate-500 text-sm font-mono">
@@ -126,7 +136,8 @@ export function DPGrid2D({ table, current, deps = [], rowLabels, colLabels, phas
       return 'bg-cyan-500 border-cyan-300 text-black shadow-[0_0_16px_rgba(6,182,212,0.6)] scale-105'
     if (isDep(i, j))
       return 'bg-amber-500/40 border-amber-400 text-amber-100 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
-    if (val === true) return 'bg-emerald-600/40 border-emerald-500/60 text-emerald-200'
+    if (val === true)
+      return 'bg-emerald-600/40 border-emerald-500/60 text-emerald-200'
     if (val === false) return 'bg-red-900/30 border-red-700/40 text-red-400'
     if (val !== null && val !== undefined && val !== 0)
       return 'bg-slate-700/70 border-slate-500/70 text-slate-200'
@@ -135,7 +146,10 @@ export function DPGrid2D({ table, current, deps = [], rowLabels, colLabels, phas
 
   const rows = table.length
   const cols = table[0]?.length ?? 0
-  const cellSize = Math.max(32, Math.min(48, Math.floor(480 / Math.max(rows, cols, 6))))
+  const cellSize = Math.max(
+    32,
+    Math.min(48, Math.floor(480 / Math.max(rows, cols, 6)))
+  )
 
   return (
     <div className="w-full overflow-auto">
@@ -170,9 +184,17 @@ export function DPGrid2D({ table, current, deps = [], rowLabels, colLabels, phas
                     <motion.div
                       layout
                       animate={{ scale: isCurrent(i, j) ? 1.08 : 1 }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 300,
+                        damping: 22,
+                      }}
                       className={`rounded-lg border-2 flex items-center justify-center font-mono font-bold transition-all duration-200 ${getCellClass(i, j, val)}`}
-                      style={{ width: cellSize, height: cellSize, fontSize: Math.max(10, cellSize * 0.28) }}
+                      style={{
+                        width: cellSize,
+                        height: cellSize,
+                        fontSize: Math.max(10, cellSize * 0.28),
+                      }}
                     >
                       <AnimatePresence mode="wait">
                         <motion.span
@@ -200,13 +222,16 @@ export function DPGrid2D({ table, current, deps = [], rowLabels, colLabels, phas
           <span className="w-3 h-3 rounded bg-cyan-500 inline-block" /> Current
         </span>
         <span className="flex items-center gap-1.5 text-xs text-slate-400">
-          <span className="w-3 h-3 rounded bg-amber-500/60 inline-block" /> Dependency
+          <span className="w-3 h-3 rounded bg-amber-500/60 inline-block" />{' '}
+          Dependency
         </span>
         <span className="flex items-center gap-1.5 text-xs text-slate-400">
-          <span className="w-3 h-3 rounded bg-slate-700 inline-block" /> Computed
+          <span className="w-3 h-3 rounded bg-slate-700 inline-block" />{' '}
+          Computed
         </span>
         <span className="flex items-center gap-1.5 text-xs text-slate-400">
-          <span className="w-3 h-3 rounded bg-emerald-500 inline-block" /> Result
+          <span className="w-3 h-3 rounded bg-emerald-500 inline-block" />{' '}
+          Result
         </span>
       </div>
     </div>

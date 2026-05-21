@@ -42,7 +42,8 @@ function getAlgoLabel(id) {
 
 const inputClass =
   'w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-sm text-slate-100 transition focus:border-cyan-500 focus:outline-none font-mono'
-const labelClass = 'text-xs text-slate-400 mb-1 block font-medium uppercase tracking-wider'
+const labelClass =
+  'text-xs text-slate-400 mb-1 block font-medium uppercase tracking-wider'
 
 const DPVisualizerPage = () => {
   const [selectedAlgo, setSelectedAlgo] = useState('fibonacci')
@@ -96,13 +97,19 @@ const DPVisualizerPage = () => {
         )
         break
       case 'subsetSum':
-        steps = generateSubsetSumSteps(parseNums(subsetNums), Math.min(subsetTarget, 50))
+        steps = generateSubsetSumSteps(
+          parseNums(subsetNums),
+          Math.min(subsetTarget, 50)
+        )
         break
       case 'lcs':
         steps = generateLCSSteps(lcsS1.slice(0, 10), lcsS2.slice(0, 10))
         break
       case 'editDistance':
-        steps = generateEditDistanceSteps(editS1.slice(0, 8), editS2.slice(0, 8))
+        steps = generateEditDistanceSteps(
+          editS1.slice(0, 8),
+          editS2.slice(0, 8)
+        )
         break
       case 'lis':
         steps = generateLISSteps(parseNums(lisNums).slice(0, 12))
@@ -161,7 +168,12 @@ const DPVisualizerPage = () => {
     if (!src) return '// Select an algorithm'
     const langSrc = src[language] || src.javascript
     if (!langSrc) return '// No implementation for this language'
-    return langSrc[approach] || langSrc.tabulation || Object.values(langSrc)[0] || '// No code'
+    return (
+      langSrc[approach] ||
+      langSrc.tabulation ||
+      Object.values(langSrc)[0] ||
+      '// No code'
+    )
   }, [selectedAlgo, language, approach])
 
   const step = playback.currentStep
@@ -377,7 +389,9 @@ const DPVisualizerPage = () => {
               className={inputClass}
               placeholder="1,3,1;1,5,1;4,2,1"
             />
-            <p className="text-xs text-slate-500 mt-1">e.g. 1,3,1;1,5,1;4,2,1</p>
+            <p className="text-xs text-slate-500 mt-1">
+              e.g. 1,3,1;1,5,1;4,2,1
+            </p>
           </div>
         )
       default:
@@ -468,7 +482,8 @@ const DPVisualizerPage = () => {
         {/* Status */}
         <StatusDisplay
           message={
-            step?.description || 'Select an algorithm, configure inputs, and press Run.'
+            step?.description ||
+            'Select an algorithm, configure inputs, and press Run.'
           }
         />
 

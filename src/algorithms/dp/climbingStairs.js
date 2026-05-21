@@ -23,7 +23,8 @@ export function generateClimbingStairsSteps(n) {
     table: [...table],
     current: 0,
     deps: [],
-    description: 'Base case: dp[0] = 1 (one way to stand at ground — do nothing)',
+    description:
+      'Base case: dp[0] = 1 (one way to stand at ground — do nothing)',
     codeLine: 4,
     phase: 'base',
   })

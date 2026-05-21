@@ -31,7 +31,8 @@ export function generateUniquePathsSteps(m, n) {
     table: table.map((r) => [...r]),
     current: null,
     deps: [],
-    description: 'Base: all cells in first row and first column = 1 (only one way to reach them).',
+    description:
+      'Base: all cells in first row and first column = 1 (only one way to reach them).',
     codeLine: 5,
     phase: 'base',
     rowLabels,
@@ -43,8 +44,11 @@ export function generateUniquePathsSteps(m, n) {
       steps.push({
         table: table.map((r) => [...r]),
         current: [i, j],
-        deps: [[i - 1, j], [i, j - 1]],
-        description: `dp[${i}][${j}] = dp[${i-1}][${j}] + dp[${i}][${j-1}] = ${table[i-1][j]} + ${table[i][j-1]} (from top + from left)`,
+        deps: [
+          [i - 1, j],
+          [i, j - 1],
+        ],
+        description: `dp[${i}][${j}] = dp[${i - 1}][${j}] + dp[${i}][${j - 1}] = ${table[i - 1][j]} + ${table[i][j - 1]} (from top + from left)`,
         codeLine: 9,
         phase: 'compute',
         rowLabels,
@@ -70,7 +74,7 @@ export function generateUniquePathsSteps(m, n) {
     table: table.map((r) => [...r]),
     current: [m - 1, n - 1],
     deps: [],
-    description: `✅ Unique paths from (0,0) to (${m-1},${n-1}) = ${table[m-1][n-1]}`,
+    description: `✅ Unique paths from (0,0) to (${m - 1},${n - 1}) = ${table[m - 1][n - 1]}`,
     codeLine: 12,
     phase: 'done',
     rowLabels,

@@ -1,64 +1,64 @@
-import React, { lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
-import AppLayout from "./components/AppLayout";
+import React, { lazy, Suspense } from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react'
+import AppLayout from './components/AppLayout'
 
 // ✅ Named exports — need .then() to extract the named export as default
 const Home = lazy(() =>
-  import("./components/Home").then((m) => ({ default: m.Home }))
-);
+  import('./components/Home').then((m) => ({ default: m.Home }))
+)
 const VisualizerPage = lazy(() =>
-  import("./components/searchAlgo/VisualizerPage").then((m) => ({
+  import('./components/searchAlgo/VisualizerPage').then((m) => ({
     default: m.VisualizerPage,
   }))
-);
+)
 const MathTheory = lazy(() =>
-  import("./components/MathTheory/MathSoloVisualizer").then((m) => ({
+  import('./components/MathTheory/MathSoloVisualizer').then((m) => ({
     default: m.MathSoloVisualizer,
   }))
-);
+)
 const DSLayout = lazy(() =>
-  import("./components/dataStructures/DSLayout").then((m) => ({
+  import('./components/dataStructures/DSLayout').then((m) => ({
     default: m.DSLayout,
   }))
-);
+)
 
 // ✅ Default exports — import directly
-const SortingVisualizerPage = lazy(() =>
-  import("./components/sortingAlgo/VisualizerPage")
-);
+const SortingVisualizerPage = lazy(
+  () => import('./components/sortingAlgo/VisualizerPage')
+)
 const ShortestPathPage = lazy(() =>
-  import("./components/shortestPathAlgo/ShortestPathPage").then((m) => ({
+  import('./components/shortestPathAlgo/ShortestPathPage').then((m) => ({
     default: m.ShortestPathPage,
   }))
-);
-const ArrayVisualizerPage = lazy(() =>
-  import("./components/arraySearch/VisualizerPage")
-);
-const KadaneVisualizerPage = lazy(() =>
-  import("./components/kadaneAlgo/VisualizerPage")
-);
-const MooreVotingVisualizerPage = lazy(() =>
-  import("./components/mooreVotingAlgo/VisualizerPage")
-);
-const DPVisualizerPage = lazy(() =>
-  import("./components/dpVisualizer/DPVisualizerPage")
-);
-const PracticePage = lazy(() => import("./components/PracticePage"));
-const AboutAlgoScope = lazy(() => import("./components/about/About"));
-const NotFound = lazy(() => import("./components/PageNotFound"));
+)
+const ArrayVisualizerPage = lazy(
+  () => import('./components/arraySearch/VisualizerPage')
+)
+const KadaneVisualizerPage = lazy(
+  () => import('./components/kadaneAlgo/VisualizerPage')
+)
+const MooreVotingVisualizerPage = lazy(
+  () => import('./components/mooreVotingAlgo/VisualizerPage')
+)
+const DPVisualizerPage = lazy(
+  () => import('./components/dpVisualizer/DPVisualizerPage')
+)
+const PracticePage = lazy(() => import('./components/PracticePage'))
+const AboutAlgoScope = lazy(() => import('./components/about/About'))
+const NotFound = lazy(() => import('./components/PageNotFound'))
 
 // ✅ Fallback loader
 const PageLoader = () => (
   <div className="flex h-screen w-full items-center justify-center bg-black text-white">
     Loading...
   </div>
-);
+)
 
 // ✅ Router defined OUTSIDE the component — created only once
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout showBackground={false}>
@@ -68,7 +68,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/search",
+    path: '/search',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -78,7 +78,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/math-theory",
+    path: '/math-theory',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -88,7 +88,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/spath",
+    path: '/spath',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -98,7 +98,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/practice",
+    path: '/practice',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -113,7 +113,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/about",
+    path: '/about',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -123,7 +123,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/sort",
+    path: '/sort',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -133,7 +133,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/ldssearch",
+    path: '/ldssearch',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -143,7 +143,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/adt",
+    path: '/adt',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -153,7 +153,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/kadane",
+    path: '/kadane',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -163,7 +163,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/moore-voting",
+    path: '/moore-voting',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -173,7 +173,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/dp",
+    path: '/dp',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -183,7 +183,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "*",
+    path: '*',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
@@ -192,11 +192,11 @@ const router = createBrowserRouter([
       </Suspense>
     ),
   },
-]);
+])
 
 // ✅ Clean App component
 function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />
 }
 
-export default App;
+export default App
