@@ -32,6 +32,9 @@ export function generateSubsetSumSteps(nums, target) {
     new Array(target + 1).fill(false)
   )
 
+  const cachedRowLabels = ['∅', ...nums.map((v) => `+${v}`)]
+  const cachedColLabels = Array.from({ length: target + 1 }, (_, i) => i)
+
   // Base: sum=0 is always achievable
   for (let i = 0; i <= n; i++) table[i][0] = true
 
@@ -42,8 +45,8 @@ export function generateSubsetSumSteps(nums, target) {
     description: `Init ${n + 1}×${target + 1} boolean table. dp[i][j] = can we form sum ${target} using first i numbers.`,
     codeLine: 3,
     phase: 'init',
-    rowLabels: ['∅', ...nums.map((v) => `+${v}`)],
-    colLabels: Array.from({ length: target + 1 }, (_, i) => i),
+    rowLabels: cachedRowLabels,
+    colLabels: cachedColLabels,
     nums,
     target,
   })
@@ -56,8 +59,8 @@ export function generateSubsetSumSteps(nums, target) {
       'Base: dp[i][0] = true for all i (empty subset always sums to 0)',
     codeLine: 5,
     phase: 'base',
-    rowLabels: ['∅', ...nums.map((v) => `+${v}`)],
-    colLabels: Array.from({ length: target + 1 }, (_, i) => i),
+    rowLabels: cachedRowLabels,
+    colLabels: cachedColLabels,
     nums,
     target,
   })
@@ -76,8 +79,8 @@ export function generateSubsetSumSteps(nums, target) {
         }`,
         codeLine: j < num ? 9 : 10,
         phase: 'compute',
-        rowLabels: ['∅', ...nums.map((v) => `+${v}`)],
-        colLabels: Array.from({ length: target + 1 }, (_, k) => k),
+        rowLabels: cachedRowLabels,
+        colLabels: cachedColLabels,
         nums,
         target,
       })
@@ -92,8 +95,8 @@ export function generateSubsetSumSteps(nums, target) {
         description: `dp[${i}][${j}] = ${table[i][j]} ✓`,
         codeLine: 10,
         phase: 'set',
-        rowLabels: ['∅', ...nums.map((v) => `+${v}`)],
-        colLabels: Array.from({ length: target + 1 }, (_, k) => k),
+        rowLabels: cachedRowLabels,
+        colLabels: cachedColLabels,
         nums,
         target,
       })
@@ -107,8 +110,8 @@ export function generateSubsetSumSteps(nums, target) {
     description: `✅ Subset summing to ${target}: ${table[n][target] ? 'EXISTS ✓' : 'NOT FOUND ✗'}`,
     codeLine: 13,
     phase: 'done',
-    rowLabels: ['∅', ...nums.map((v) => `+${v}`)],
-    colLabels: Array.from({ length: target + 1 }, (_, k) => k),
+    rowLabels: cachedRowLabels,
+    colLabels: cachedColLabels,
     nums,
     target,
   })
