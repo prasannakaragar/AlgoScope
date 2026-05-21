@@ -68,7 +68,7 @@ const ALGORITHMS = [
     title: 'Dynamic Programming',
     description:
       'Visualize DP patterns like Knapsack, LCS, LIS, and more with step-by-step table filling.',
-    color: 'bg-slate-900/50 border-yellow-500/30 hover:border-yellow-400',
+    color: 'theme-card border-yellow-500/30 hover:border-yellow-400',
     link: '/dp',
     image: DPImg,
     imageAlt:

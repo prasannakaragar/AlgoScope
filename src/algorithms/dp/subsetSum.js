@@ -7,7 +7,7 @@
 export function generateSubsetSumSteps(nums, target) {
   const steps = []
   const n = nums.length
-  if (n === 0 || target < 0) return steps
+  if (target < 0) return steps
   if (target === 0) {
     steps.push({
       table: [[true]],
@@ -23,6 +23,7 @@ export function generateSubsetSumSteps(nums, target) {
     })
     return steps
   }
+  if (n === 0) return steps
   const table = Array.from({ length: n + 1 }, () =>
     new Array(target + 1).fill(false)
   )
