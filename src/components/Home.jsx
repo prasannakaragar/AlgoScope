@@ -6,7 +6,7 @@ import LinearSearchImg from '../assets/new-home-images/search.png'
 import GraphAlgoImg from '../assets/new-home-images/shortestPath.png'
 import KadaneImg from '../assets/new-home-images/KadaneImg.png'
 import MooreVotingImg from '../assets/new-home-images/MooreVoting.png'
-import { MathSoloVisualizer } from './MathTheory/MathSoloVisualizer'
+import DPImg from '../assets/new-home-images/DPImg.png'
 import adt from '../assets/new-home-images/adt.png'
 import { motion } from 'framer-motion'
 
@@ -65,8 +65,18 @@ const ALGORITHMS = [
       'Stacks, Queues, Binary Trees, Binary Heaps, and Priority Queues data structures',
   },
   {
+    title: 'Dynamic Programming',
+    description:
+      'Visualize DP patterns like Knapsack, LCS, LIS, and more with step-by-step table filling.',
+    color: 'bg-slate-900/50 border-yellow-500/30 hover:border-yellow-400',
+    link: '/dp',
+    image: DPImg,
+    imageAlt:
+      'Dynamic programming table visualization with highlighted transitions',
+  },
+  {
     title: 'Kadane Algorithm',
-    description: 'Visualize Maximum Subarray Sum using Kadane’s Algorithm.',
+    description: 'Visualize Maximum Subarray Sum using Kadane\u2019s Algorithm.',
     color: 'bg-slate-900/50 border-pink-500/30 hover:border-pink-400',
     link: '/kadane',
     image: KadaneImg,
@@ -88,7 +98,7 @@ const ALGORITHMS = [
       'Visualize GCD, Fast Exponentiation, and Bit Manipulation step-by-step.',
     color: 'bg-slate-900/50 border-indigo-500/30 hover:border-indigo-400',
     link: '/math-theory',
-    image: KadaneImg, // or create/import a proper Math image if you have one
+    image: KadaneImg,
     imageAlt: 'Mathematical algorithms visualization',
   },
 ]
