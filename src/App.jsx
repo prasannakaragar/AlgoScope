@@ -44,6 +44,11 @@ const MooreVotingVisualizerPage = lazy(
 const DPVisualizerPage = lazy(
   () => import('./components/dpVisualizer/DPVisualizerPage')
 )
+
+const BacktrackingVisualizerPage = lazy(
+  () => import('./components/backtrackingAlgo/VisualizerPage')
+)
+
 const PracticePage = lazy(() => import('./components/PracticePage'))
 const AboutAlgoScope = lazy(() => import('./components/about/About'))
 const NotFound = lazy(() => import('./components/PageNotFound'))
@@ -178,6 +183,16 @@ const router = createBrowserRouter([
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
           <DPVisualizerPage />
+        </AppLayout>
+      </Suspense>
+    ),
+  },
+  {
+    path: '/backtracking',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <AppLayout>
+          <BacktrackingVisualizerPage />
         </AppLayout>
       </Suspense>
     ),
